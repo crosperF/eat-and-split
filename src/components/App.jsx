@@ -34,7 +34,7 @@ function App() {
     };
 
     const openSplitFormHandler = (id) => {
-        setOpenFormId(() => id);
+        setOpenFormId((prev) => (id === prev ? null : id));
     };
 
     const updateBalanceHandler = (id, balance) => {
@@ -60,6 +60,7 @@ function App() {
                 friends={friends}
                 onAddFriend={addFriendHandler}
                 onOpenFrom={openSplitFormHandler}
+                openFriendId={openFormId}
             />
             {openFormId != null && (
                 <SplitForm

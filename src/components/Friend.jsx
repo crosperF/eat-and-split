@@ -1,4 +1,4 @@
-const Friend = ({ friend_data, onOpenFrom }) => {
+const Friend = ({ friend_data, onOpenFrom, selected }) => {
     let msg;
     let msgClass;
 
@@ -14,7 +14,7 @@ const Friend = ({ friend_data, onOpenFrom }) => {
     }
 
     return (
-        <li>
+        <li className={selected ? "selected" : ""}>
             <img src={friend_data.image} alt="user" />
             <h3>{friend_data.name}</h3>
             <p className={msgClass}>{msg} </p>
@@ -22,7 +22,7 @@ const Friend = ({ friend_data, onOpenFrom }) => {
                 className="button"
                 onClick={() => onOpenFrom(friend_data.id)}
             >
-                Select
+                {selected ? "Close" : "Select"}
             </button>
         </li>
     );
