@@ -1,6 +1,4 @@
 import { useState } from "react";
-import AddFriend from "./AddFriend";
-import FriendsList from "./FriendsList";
 import SideBar from "./SideBar";
 import SplitForm from "./SplitForm";
 
@@ -28,6 +26,7 @@ const initialFriends = [
 function App() {
     const [friends, setFriends] = useState(initialFriends);
     const [openFormId, setOpenFormId] = useState(null);
+    let selectedFriendData = null;
 
     const addFriendHandler = (name, image) => {
         let newFriend = { name, image, balance: 0, id: Date.now() };
@@ -35,10 +34,26 @@ function App() {
     };
 
     const openSplitFormHandler = (id) => {
-        console.log(id);
         setOpenFormId(() => id);
     };
 
+    const updateBalanceHandler = (id, balance) => {
+        setFriends((prev) => {
+            let updated_list = prev.map((el) => {
+                if (el.id === id) {
+                    el.balance = balance;
+                }
+                return el;
+            });
+
+            return updated_list;
+        });
+    };
+
+    if (openFormId != null) {
+        let filteredFrnd = friends.filter((el) => el.id === openFormId);
+        selectedFriendData = filteredFrnd[0];
+    }
     return (
         <div className="app">
             <SideBar
@@ -47,7 +62,10 @@ function App() {
                 onOpenFrom={openSplitFormHandler}
             />
             {openFormId != null && (
-                <SplitForm friendDetails={{ name: "John" }} />
+                <SplitForm
+                    friendDetails={selectedFriendData}
+                    onBalanceUpdate={updateBalanceHandler}
+                />
             )}
         </div>
     );
